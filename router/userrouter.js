@@ -3,7 +3,9 @@ const User = require('../model/users');
 const multer = require('multer');
 const fs = require('fs'); // for delete img into code folder in ./public/upload
 const bcrypt = require('bcryptjs');
-const { error } = require('console');
+const auth = require("../middleware/auth");
+
+
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -47,9 +49,12 @@ router.post('/do_register', upload.single('img'), async (req, res) => {
   }
 });
 
-router.get('/view', async (req, res) => {
+router.get('/view',auth, async (req, res) => {
+
+  const user = req.user
   try {
-    const data = await User.find();
+    const data = await User.find({_id:user._id});
+   
     res.render('view', { udata: data });
   } catch (error) {
     console.log(error);
@@ -102,7 +107,7 @@ router.post('/do_login', async (req, res) => {
 
     if (isValid) {
       const token = await userdata.generateToken();
-      console.log(token);
+
 
       res.cookie('jwt', token);
       res.redirect('view');
@@ -114,5 +119,16 @@ router.post('/do_login', async (req, res) => {
     res.render('login', { err: 'Invalid Credentials !!!' });
   }
 });
+
+router.get("/logout",auth,async(req,res)=>{
+  try {
+    
+    res.clearCookie("jwt")
+    res.render("login")
+
+  } catch (error) {
+    console.log(error);
+  }
+})
 
 module.exports = router;

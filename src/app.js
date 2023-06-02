@@ -6,6 +6,9 @@ const hbs = require("hbs")
 const path = require("path")
 var bodyParser = require('body-parser')
 
+var cookieParser=require('cookie-parser')
+app.use(cookieParser())
+
 const PORT = process.env.PORT
 const DB_URL= process.env.DB_URL
 

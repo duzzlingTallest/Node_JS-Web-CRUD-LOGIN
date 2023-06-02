@@ -48,8 +48,9 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
                     <th>Image</th>
                     <th>Delete</th>
                     <th>Edit</th>
+                    <th><a href="logout" class="btn btn-warning">Logout</a></th>
                 </tr>
-            {{#each udata}}
+            {{#each udata}} {{!-- ?? --}}
                 <tr>
                     <td>{{this.uname}}</td>
                     <td>{{this.email}}</td>
@@ -57,8 +58,9 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
                     <td><img src="upload/{{this.img}}" alt="{{this.img}}" height="30px" width="40px"></td>
                     <td><a href="delete?did={{this._id}}" class="btn btn-danger">Delete</a></td>
                     <td><a href="edit?eid={{this._id}}" class="btn btn-warning">Edit</a></td>
+                    <td></td>
                 </tr>
-            {{/each}}
+            {{/each}}   {{!-- ?? --}}
             </table> 
         </div>
       </div>
