@@ -61,7 +61,7 @@ router.get('/view',auth, async (req, res) => {
   }
 });
 
-router.get('/delete', async (req, res) => {
+router.get('/delete',auth, async (req, res) => {
   const did = req.query.did;
   try {
     const data = await User.findByIdAndDelete(did);
@@ -72,7 +72,7 @@ router.get('/delete', async (req, res) => {
   }
 });
 
-router.get('/edit', async (req, res) => {
+router.get('/edit', auth,async (req, res) => {
   const eid = req.query.eid; // it can be get the id from the database
 
   try {
@@ -103,7 +103,7 @@ router.post('/do_login', async (req, res) => {
   try {
     const userdata = await User.findOne({ email: req.body.email });
 
-    const isValid = await bcrypt.compare(req.body.pass, userdata.pass);
+    const isValid = await bcrypt.compare(req.body.pass,userdata.pass);
 
     if (isValid) {
       const token = await userdata.generateToken();
@@ -115,7 +115,7 @@ router.post('/do_login', async (req, res) => {
       res.render('login', { err: 'Valid Credentials !!!' });
     }
   } catch (err) {
-    console.log(error);
+    console.log(err);
     res.render('login', { err: 'Invalid Credentials !!!' });
   }
 });
@@ -123,6 +123,37 @@ router.post('/do_login', async (req, res) => {
 router.get("/logout",auth,async(req,res)=>{
   try {
     
+    const user =req.user
+    const token = req.token
+
+    user.Tokens =user.Tokens.filter(ele=>{
+      return ele.token != token
+    })
+
+    user.save(  )
+
+    res.clearCookie("jwt")
+    res.render("login")
+
+  } catch (error) {
+    console.log(error);
+  }
+})
+
+router.get("/logoutall",auth,async(req,res)=>{
+  try {
+    
+    const user =req.user
+    const token = req.token
+
+    user.Tokens =user.Tokens.filter(ele=>{
+      return ele.token != token
+    })
+
+    user.Tokens = []
+
+    user.save(  )
+
     res.clearCookie("jwt")
     res.render("login")
 

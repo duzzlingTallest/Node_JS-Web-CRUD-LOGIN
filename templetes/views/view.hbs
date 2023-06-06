@@ -49,6 +49,7 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
                     <th>Delete</th>
                     <th>Edit</th>
                     <th><a href="logout" class="btn btn-warning">Logout</a></th>
+                    <th><a href="logoutall" class="btn btn-warning">Logout All</a></th>
                 </tr>
             {{#each udata}} {{!-- each Is a one type of loop like for loop  --}}
                 <tr>
@@ -58,6 +59,7 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
                     <td><img src="upload/{{this.img}}" alt="{{this.img}}" height="30px" width="40px"></td>
                     <td><a href="delete?did={{this._id}}" class="btn btn-danger">Delete</a></td>
                     <td><a href="edit?eid={{this._id}}" class="btn btn-warning">Edit</a></td>
+                    <td><a href="" class=""></a></td>
                     <td></td>
                 </tr>
             {{/each}}

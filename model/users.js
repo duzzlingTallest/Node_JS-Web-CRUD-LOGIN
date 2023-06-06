@@ -18,17 +18,33 @@ const userSchema = new mongoose.Schema({
   img: {
     type: String,
   },
+  Tokens :[{  // Array For stored multiple tokens
+    token:{
+      type:String
+    }
+  }]
 });
 
 userSchema.pre('save', async function () {
   try {
-    this.pass = await bcrypt.hash(this.pass, 10);
-  } catch (error) {}
+
+    if (this.modified("pass")) {
+      
+      this.pass = await bcrypt.hash(this.pass, 10);
+      console.log(this.pass);
+    
+    }
+  } catch (error) {
+     
+  }
 });
 
 userSchema.methods.generateToken = async function () {
   try {
     const token = await jwt.sign({_id:this._id},process.env.S_KEY); //jwt.sign(PASS ANY TWO PARAMETERS)<=methode
+    
+    this.Tokens = await this.Tokens.concat({token:token}) // This is the Attributes of the token {token:token}
+    this.save( )
     return token
   } catch (error) {}
 };
