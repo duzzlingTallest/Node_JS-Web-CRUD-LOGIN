@@ -28,7 +28,7 @@ userSchema.pre('save', async function () {
 
 userSchema.methods.generateToken = async function () {
   try {
-    const token = await jwt.sign({_id:this._id},process.env.S_KEY); //?
+    const token = await jwt.sign({_id:this._id},process.env.S_KEY); //jwt.sign(PASS ANY TWO PARAMETERS)<=methode
     return token
   } catch (error) {}
 };
