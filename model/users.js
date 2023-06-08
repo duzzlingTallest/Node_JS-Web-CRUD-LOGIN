@@ -28,11 +28,11 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', async function () {
   try {
 
-    if (this.modified("pass")) {
+    if (this.isModified("pass")) {
       
       this.pass = await bcrypt.hash(this.pass, 10);
-      console.log(this.pass);
-    
+      
+
     }
   } catch (error) {
      

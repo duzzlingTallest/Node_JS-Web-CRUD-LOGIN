@@ -102,6 +102,12 @@ router.post('/do_update', upload.single('img'), async (req, res) => {
 router.post('/do_login', async (req, res) => {
   try {
     const userdata = await User.findOne({ email: req.body.email });
+    
+    if(userdata.Tokens.length>2){
+      res.render('login', { err: 'Max login limmit reached !!!' });
+      return
+    }
+
 
     const isValid = await bcrypt.compare(req.body.pass,userdata.pass);
 
